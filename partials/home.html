@@ -1,0 +1,26 @@
+﻿<div class="container">
+
+    <!-- Popular shots -->
+
+    <div class="row">
+
+        <div class="col-lg-12">
+            <h2 class="page-header">Popular Shots</h2>
+        </div>
+
+    </div>
+	
+	<div class="row">
+		<ul class="list-unstyled">
+			<li ng-repeat="shot in shots.shots">
+				<div class="col-sm-4">
+					<img alt="{{shot.title}}" ng-click="showDetail(shot.id)" class="img-responsive" src="{{ shot.image_url }}" data-item="{{shot.id}}">
+					<h4 class="text-center">{{ shot.title }}</h4>
+				</div>
+ 
+			</li>
+		</ul>
+	</div>
+
+</div>
+<!-- /.container -->
