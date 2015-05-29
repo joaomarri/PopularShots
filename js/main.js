@@ -1,8 +1,8 @@
-﻿
+
 /**
  * AngularJS Web Application
  */
-var app = angular.module('WebApp', ['ngRoute','ngResource']);
+var app = angular.module('WebApp', ['ngRoute', 'ngResource', 'ui.bootstrap']);
 
 /**
  * Configure the Routes
@@ -21,8 +21,8 @@ app.config(['$routeProvider', function ($routeProvider) {
 }]);
 
 
-app.factory("ShotsInit", function($resource) {
-	var api = $resource("http://api.dribbble.com/shots/popular",
+app.factory("ShotsPage", function($resource) {
+	var api = $resource("http://api.dribbble.com/shots/popular?page=:page",
     { callback: "JSON_CALLBACK" },
     { get: { method: "JSONP" }});
 	
@@ -41,18 +41,37 @@ app.factory("ShotDetail", function($resource) {
 /**
  * Controls all other Pages
  */
-app.controller('PageCtrl', function ($scope, $location, $http, ShotsInit) {
+app.controller('PageCtrl', function ($scope, $location, $http, ShotsPage) {
   console.log("Page Controller reporting.");
-  
-   ShotsInit.get(function(data) {
-    $scope.shots = data;
-	console.log($scope.shots);
-  });
-  
+    
+    $scope.currentPage = 1;
+    ShotsPage.get({ page: $scope.currentPage }, function (data) {
+      $scope.shots = data.shots;
+    });
+    
   $scope.showDetail = function(idShot) {
 		console.log(idShot);
 		$location.path("/detail/"+idShot);
 	}
+  
+  $scope.totalItems = 500;
+  $scope.currentPage = 1;
+   $scope.paginaService = ShotsPage;
+
+  $scope.setPage = function (pageNo) {
+    $scope.currentPage = pageNo;
+  };
+
+  $scope.pageChanged = function() {
+    console.log('Page changed to: ' + $scope.currentPage);
+      $scope.paginaService.get({page: $scope.currentPage}, function (data) {
+          $scope.shots = data.shots;
+      });
+  };
+
+  $scope.maxSize = 5;
+ 
+  
   
 });
 
@@ -62,4 +81,25 @@ app.controller('DetailCtrl', function ($scope, $location, $http, $route, ShotDet
   ShotDetail.get({ id: $route.current.params.id }, function (data) {
       $scope.shot = data;
     });
+});
+
+app.controller('PaginationCtrl', function ($scope, ShotsPage) {
+  console.log("Pagination Controller");
+  $scope.totalItems = 500;
+  $scope.currentPage = 1;
+   $scope.paginaService = ShotsPage;
+
+  $scope.setPage = function (pageNo) {
+    $scope.currentPage = pageNo;
+  };
+
+  $scope.pageChanged = function() {
+    console.log('Page changed to: ' + $scope.currentPage);
+      $scope.paginaService.get({page: $scope.currentPage}, function (data) {
+          $scope.shots = data.shots;
+      });
+  };
+
+  $scope.maxSize = 5;
+ 
 });
