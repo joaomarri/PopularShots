@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-controller="PageCtrl">
 
     <!-- Popular shots -->
 
@@ -22,7 +22,7 @@
 		</ul>
 	</div>
     
-    <div class="row" ng-controller="PageCtrl">
+    <div class="row">
         <div class="row text-center">
             <pagination boundary-links="true" ng-click="pageChanged()" total-items="totalItems" ng-model="currentPage" max-size="maxSize"                   class="pagination" previous-text="&lsaquo;"                        next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
             </pagination>
