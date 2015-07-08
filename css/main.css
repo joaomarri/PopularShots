@@ -97,7 +97,7 @@ body {
 	cursor: not-allowed;
 	filter: alpha(opacity=60);
 	opacity: 0.6;
-	background: #000000 url(http://load.png) no-repeat center;
+	background: #eee url(http://load.png) no-repeat center;
 }
 
 #shotsLoading {
@@ -106,7 +106,7 @@ body {
 	width:100%;
 	text-align: center;
 	font-size: 4em;
-	color:white;
+	color:black;
 	text-shadow: 2px 2px 2px #021124;
 }
 
